@@ -7,4 +7,5 @@ else
   URL=$CONNECTION_URL
 fi
 
-psql $URL
+NO_DB_URL=$(sed 's/\/auth//g' <<<"$URL")
+psql $NO_DB_URL -c "DROP DATABASE IF EXISTS auth;"

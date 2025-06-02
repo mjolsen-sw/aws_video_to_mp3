@@ -1,19 +1,15 @@
-version: '3.8'
-
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql-db
-    restart: unless-stopped
+  auth-db:
+    image: postgres:16
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: auth
-      MYSQL_USER: auth_user
-      MYSQL_PASSWORD: Auth123
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
     ports:
-      - "3306:3306"
+      - "2345:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_auth_data:/var/lib/postgresql/data
 
 volumes:
-  mysql_data:
+  postgres_auth_data:
+    driver: local

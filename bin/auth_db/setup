@@ -1,0 +1,10 @@
+#! /usr/bin/bash
+set -e # stop if it fails at any point
+
+ABS_PATH=$(readlink -f "$0")
+AUTH_DB_PATH=$(dirname $ABS_PATH)
+
+source "$AUTH_DB_PATH/drop"
+source "$AUTH_DB_PATH/create"
+source "$AUTH_DB_PATH/schema-load"
+source "$AUTH_DB_PATH/seed"
