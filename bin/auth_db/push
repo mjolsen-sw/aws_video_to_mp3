@@ -1,0 +1,6 @@
+#! /usr/bin/bash
+ECR_AUTH_URL="$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/video-to-mp3/auth"
+echo $ECR_AUTH_URL
+
+docker tag auth:latest $ECR_AUTH_URL:latest
+docker push $ECR_AUTH_URL:latest

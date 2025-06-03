@@ -8,3 +8,7 @@ venv/
 *.tfstate.*
 *.log
 *.tfplan
+
+# Ignore Kubernetes secrets files
+credentials.yaml
+secret.yaml
