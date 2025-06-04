@@ -1,20 +1,30 @@
-import jwt, datetime, os
+import boto3
+import datetime
+import jwt
+import os
+import psycopg2
 from flask import Flask, request
-from psycopg2
 
-server = Flask(__name__)
+app = Flask(__name__)
 
-# config
+# ssm = boto3.client('ssm')
+# def get_param(name):
+#     return ssm.get_parameter(Name=name, WithDecryption=True)['Parameter']['Value']
+
+# CONNECTION_URL = get_param('/video_to_mp3/auth_db/CONNECTION_URL')
+# JWT_SECRET = get_param('/video_to_mp3/auth/JWT_SECRET')
+
 CONNECTION_URL = os.getenv('CONNECTION_URL')
+JWT_SECRET = os.getenv('JWT_SECRET')
 
 def get_pg_connection():
   return psycopg2.connect(CONNECTION_URL)
 
-@server.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
   auth = request.authorization
   if not auth:
-    return {'message': 'Missing credentials'}, 401
+    return 'Missing credentials', 401
   
   conn = get_pg_connection()
   cur = conn.cursor()
@@ -30,27 +40,27 @@ def login():
     email, password = user_row
 
     if auth.username != email or auth.password != password:
-      return {'message': 'Invalid credentials'}, 401
+      return 'Invalid credentials', 401
     else:
-      return createJWT(auth.username, os.getenv('JWT_SECRET'), True)
+      return createJWT(auth.username, JWT_SECRET, True)
   else:
-    return {'message': 'Invalid credentials'}, 401
-  
-@server.route('/validate', methods=['POST'])
+    return 'Invalid credentials', 401
+
+@app.route('/validate', methods=['POST'])
 def validate():
   encoded_jwt = request.headers.get('Authorization')
 
   if not encoded_jwt or not encoded_jwt.startswith('Bearer '):
-    return {'message': 'Missing or invalid token'}, 401
+    return 'Missing or invalid token', 401
   
   encoded_jwt = encoded_jwt.split(' ')[1]
   try:
-    decoded_jwt = jwt.decode(encoded_jwt, os.getenv('JWT_SECRET'), algorithms=['HS256'])
+    decoded_jwt = jwt.decode(encoded_jwt, JWT_SECRET, algorithms=['HS256'])
     return decoded_jwt, 200
   except jwt.ExpiredSignatureError:
-    return {'message': 'Token has expired'}, 401
+    return 'Token has expired', 401
   except jwt.InvalidTokenError:
-    return {'message': 'Invalid token'}, 401
+    return 'Invalid token', 401
   
 def createJWT(username, secret, is_admin):
   return jwt.encode(
@@ -65,4 +75,4 @@ def createJWT(username, secret, is_admin):
   )
 
 if __name__ == '__main__':
-  server.run(host='0.0.0.0', port=5000, debug=True)
+  app.run(host='0.0.0.0', port=5000, debug=True)
