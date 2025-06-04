@@ -3,9 +3,9 @@
 ABS_PATH=$(readlink -f "$0")
 BIN_PATH=$(dirname $ABS_PATH)
 PROJECT_PATH=$(dirname $BIN_PATH)
-AUTH_PATH="$PROJECT_PATH/python/src/auth"
-schema_path="$AUTH_PATH/db/schema.sql"
-echo $schema_path
+AUTH_PATH="$PROJECT_PATH/auth"
+SCHEMA_PATH="$AUTH_PATH/db/schema.sql"
+echo $SCHEMA_PATH
 
 if [ "$1" = "prod" ]; then
   echo "Running in production mode"
@@ -14,4 +14,4 @@ else
   URL=$CONNECTION_URL
 fi
 
-psql $URL auth < $schema_path
+psql $URL auth < $SCHEMA_PATH

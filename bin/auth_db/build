@@ -3,7 +3,7 @@ ABS_PATH=$(readlink -f "$0")
 AUTH_PATH=$(dirname $ABS_PATH)
 BIN_PATH=$(dirname $AUTH_PATH)
 PROJECT_PATH=$(dirname $BIN_PATH)
-AUTH_FLASK_PATH="$PROJECT_PATH/python/src/auth"
+AUTH_FLASK_PATH="$PROJECT_PATH/auth"
 
 docker build \
 -f "$AUTH_FLASK_PATH/Dockerfile" \

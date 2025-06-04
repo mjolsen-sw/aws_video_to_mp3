@@ -6,10 +6,12 @@ RUN apt-get update \
   && pip install --no-cache-dir --upgrade pip
 
 WORKDIR /app
+
 COPY ./requirements.txt /app
 RUN pip install --no-cache-dir -r /app/requirements.txt
-COPY . /app
+
+COPY src/ ./src/
 
 EXPOSE 5000
 
-CMD ["python3", "server.py"]
+CMD ["python3", "src/server.py"]

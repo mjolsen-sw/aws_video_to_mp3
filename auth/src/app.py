@@ -1,4 +1,4 @@
-import boto3
+# import boto3
 import datetime
 import jwt
 import os
@@ -36,7 +36,6 @@ def login():
   conn.close()
 
   if user_row:
-    user_row = cur.fetchone()
     email, password = user_row
 
     if auth.username != email or auth.password != password:
@@ -66,8 +65,8 @@ def createJWT(username, secret, is_admin):
   return jwt.encode(
     {
       'username': username,
-      'exp': datetime.datetime.utcnow(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
-      'iat': datetime.datetime.utcnow(tz=datetime.timezone.utc),
+      'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=1),
+      'iat': datetime.datetime.now(datetime.timezone.utc),
       'admin': is_admin
     },
     secret,

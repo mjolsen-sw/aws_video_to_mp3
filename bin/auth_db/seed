@@ -3,9 +3,9 @@
 ABS_PATH=$(readlink -f "$0")
 BIN_PATH=$(dirname $ABS_PATH)
 PROJECT_PATH=$(dirname $BIN_PATH)
-AUTH_PATH="$PROJECT_PATH/python/src/auth"
-seed_path="$AUTH_PATH/db/seed.sql"
-echo $seed_path
+AUTH_PATH="$PROJECT_PATH/auth"
+SEED_PATH="$AUTH_PATH/db/seed.sql"
+echo $SEED_PATH
 
 if [ "$1" = "prod" ]; then
   echo "Running in production mode"
@@ -14,4 +14,4 @@ else
   URL=$CONNECTION_URL
 fi
 
-psql $URL auth < $seed_path
+psql $URL auth < $SEED_PATH
