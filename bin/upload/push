@@ -1,0 +1,6 @@
+#! /usr/bin/bash
+ECR_UPLOAD_URL="$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/video-to-mp3/upload"
+echo $ECR_UPLOAD_URL
+
+docker tag auth:latest $ECR_UPLOAD_URL:latest
+docker push $ECR_UPLOAD_URL:latest

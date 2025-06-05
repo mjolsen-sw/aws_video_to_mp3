@@ -1,0 +1,11 @@
+#! /usr/bin/bash
+ABS_PATH=$(readlink -f "$0")
+UPLOAD_PATH=$(dirname $ABS_PATH)
+BIN_PATH=$(dirname $UPLOAD_PATH)
+PROJECT_PATH=$(dirname $BIN_PATH)
+UPLOAD_FLASK_PATH="$PROJECT_PATH/upload"
+
+docker build \
+-f "$UPLOAD_FLASK_PATH/Dockerfile" \
+-t upload \
+"$UPLOAD_FLASK_PATH/."
