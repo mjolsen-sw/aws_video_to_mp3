@@ -45,7 +45,13 @@ The email context will have the API Gateway set the 'X-User-Email' header for th
 The requests library is not provided in the AWS Lambda Python runtime by default.
 To generate, in `lambdas/layers/requests_layer/python`:
 ```sh
-pip3 install --platform manylinux2014_x86_64 --target . --python-version 3.12 --only-binary=:all: requests
+pip3 install --platform manylinux2014_x86_64 \
+             --target lib/python3.12/site-packages \
+             --implementation cp \
+             --python-version 3.12 \
+             --only-binary=:all: \
+             --upgrade \
+             requests
 ```
 Then:
 ```sh
