@@ -38,3 +38,18 @@ In `python/src/auth/manifests/`:
 ```sh
 kubectl apply -f ./
 ```
+## Lambda Authorizer
+Created a lambda authorizer to validate JWT through the auth service, generate policy, and set email context.
+The email context will have the API Gateway set the 'X-User-Email' header for the upload service.
+### Lambda Layer
+The requests library is not provided in the AWS Lambda Python runtime by default.
+To generate, in `lambdas/layers/requests_layer/python`:
+```sh
+pip3 install --platform manylinux2014_x86_64 --target . --python-version 3.12 --only-binary=:all: requests
+```
+Then:
+```sh
+cd ..
+zip -r requests-layer.zip python
+```
+Uploaded reusable lambda layer for future use.
