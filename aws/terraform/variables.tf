@@ -9,3 +9,15 @@ variable "terraform_state_bucket" {
   type        = string
   default     = "my-terraform-state-bucket"
 }
+
+variable "vpc_cidr_block" {
+  description = "CIDR block for the VPC"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "environment" {
+  description = "Environment for the deployment (e.g., dev, prod)"
+  type        = string
+  default     = "dev"
+}
