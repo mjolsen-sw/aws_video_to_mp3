@@ -21,3 +21,14 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+variable "flask_auth_url" {
+  description = "URL of the Flask authentication service"
+  type        = string
+  default     = "http://your-flask-service/validate"
+}
+
+variable "acm_certificate_arn" {
+  description = "ARN of the ACM certificate for the ALB"
+  type        = string
+}
