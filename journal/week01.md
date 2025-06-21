@@ -17,6 +17,22 @@ deactivate
 ## Kubernetes
 The auth service's Kubernets configs are located in `python/src/auth/manifests`.
 They're currently set to pull CONNECTION_URL and JWT_SECRET from AWS SSM Paramter Store.
+### Create S3 bucket and DynamoDB for state management
+The S3 bucket holds the state while the DynamoDB table is used as a locking mechanism.
+```sh
+aws s3api create-bucket \
+  --bucket mjolsen-video-to-mp3-terraform-state \
+  --region us-west-1 \
+  --create-bucket-configuration LocationConstraint=us-west-1
+```
+```sh
+aws dynamodb create-table \
+  --table-name terraform-locks \
+  --attribute-definitions AttributeName=LockID,AttributeType=S \
+  --key-schema AttributeName=LockID,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --region us-west-1
+```
 ### Generate ECR credentials secret
 We'll be needing to install go and helm for this process.
 After, to be able to use external secrets:

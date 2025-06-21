@@ -54,12 +54,6 @@ resource "aws_api_gateway_integration" "alb_proxy" {
 resource "aws_api_gateway_deployment" "main" {
   depends_on = [aws_api_gateway_integration.alb_proxy]
   rest_api_id = aws_api_gateway_rest_api.main.id
-  stage_name  = "prod"
-}
-
-# Output the invoke URL
-output "api_invoke_url" {
-  value = "${aws_api_gateway_deployment.main.invoke_url}"
 }
 
 resource "aws_lambda_function" "authorizer" {
@@ -96,4 +90,9 @@ resource "aws_iam_role" "lambda_authorizer_role" {
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   role       = aws_iam_role.lambda_authorizer_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+# Output the invoke URL
+output "api_invoke_url" {
+  value = "${aws_api_gateway_deployment.main.invoke_url}"
 }
